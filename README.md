@@ -67,4 +67,4 @@ The above example makes use of the `StringToken` class. When you do a `toString(
 
 ## License
 
-MIT
+ISC
