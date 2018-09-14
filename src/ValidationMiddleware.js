@@ -1,6 +1,6 @@
 const Context = require('./ValidationContext');
 const Notification = require('./ValidationNotification');
-const Registry = require('./ValidationRegistry');
+const { parseRules } = require('./RuleParser');
 
 class Validator {
   constructor(rules) {
@@ -27,7 +27,7 @@ class Validator {
         }
       }
 
-      const context = new Context(_.field, _.label, templateContext, root, req);
+      const context = new Context(_.field, templateContext, root, req);
       const value = _.rule.validate(context);
 
       const promise = new Promise(async (resolve) => {
@@ -45,38 +45,31 @@ class Validator {
   }
 }
 
-class ValidationMiddleware {
-  define(configure) {
-    const registry = new Registry();
-    configure(registry);
+module.exports = (schema) => {
+  const validator = new Validator(parseRules(schema));
+  return (req, res, next) => {
+    const target = req.params || {};
+    const keys = Object.keys(req.body);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      target[key] = req.body[key];
+    }
 
-    const validator = new Validator(registry.rules);
-    return (req, res, next) => {
-      const target = req.params || {};
-      const keys = Object.keys(req.body);
-      for (let i = 0; i < keys.length; i++) {
-        const key = keys[i];
-        target[key] = req.body[key];
+    const query = req.query || {};
+    Object.keys(query).forEach((key) => {
+      target[key] = req.query[key];
+    });
+
+    validator.validate(target, req).then((notification) => {
+      if (notification.isValid()) {
+        next();
+        return;
       }
 
-      const query = req.query || {};
-      Object.keys(query).forEach((key) => {
-        target[key] = req.query[key];
+      res.status(400);
+      res.send({
+        errors: notification.allMessages().map(_ => _.toPayload()),
       });
-
-      validator.validate(target, req).then((notification) => {
-        if (notification.isValid()) {
-          next();
-          return;
-        }
-
-        res.status(400);
-        res.send({
-          errors: notification.allMessages().map(_ => _.toPayload()),
-        });
-      });
-    };
-  }
-}
-
-module.exports = new ValidationMiddleware();
+    });
+  };
+};

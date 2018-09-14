@@ -1,9 +1,5 @@
-const Validation = null;
+const { StringToken, Provider } = require('./src/Localization');
 
-const MyCustomRule = Validation.createRule(async (context) => {
-    
-});
-
-const sampleValidation = {
-    title: v.required().minLength(100).custom(MyCustomRule),
-};
+module.exports.StringToken = StringToken;
+module.exports.Localization = Provider;
+module.exports.Validate = require('./src/ValidationMiddleware');

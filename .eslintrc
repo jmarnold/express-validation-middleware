@@ -17,7 +17,7 @@
     "import/first": ["error", { "absolute-first": false }],
     "import/no-unresolved": "off",
     "import/order": "off",
-    "max-len": ["warn", 100],
+    "max-len": "off",
     "no-continue": "off",
     "no-param-reassign": "warn",
     "no-plusplus": "off",

@@ -23,9 +23,9 @@
     "url": "https://github.com/jmarnold/express-validation-middleware/issues"
   },
   "homepage": "https://github.com/jmarnold/express-validation-middleware#readme",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
+    "body-parser": "^1.18.3",
     "chai": "^4.1.2",
     "cross-env": "^5.2.0",
     "eslint": "^5.4.0",
