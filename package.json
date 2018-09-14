@@ -1,5 +1,5 @@
 {
-  "name": "express-validation-middleware",
+  "name": "expressjs-validation-middleware",
   "version": "1.0.0",
   "description": "Express middleware for validating HTTP requests",
   "main": "index.js",

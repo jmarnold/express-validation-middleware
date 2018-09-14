@@ -15,7 +15,7 @@ npm install express-validation-middleware
 For the simplest possible scenario, you can configure your rules and use them as middleware for an existing express route using the following:
 
 ```js
-const { Validate } = require('express-validation-middleware');
+const { Validate } = require('expressjs-validation-middleware');
 
 const createUserRules = {
   firstName: {
@@ -41,7 +41,7 @@ app.post('/users', Validate(createUserRules), (req, res) => {
 As noted in the example above, you can also specify custom validation rules. Here's a sample of a custom validation rule for validating unique emails:
 
 ```js
-const { StringToken } = require('express-validation-middleware');
+const { StringToken } = require('expressjs-validation-middleware');
 const uniqueEmail = {
   validate(context) {
     if (context.isEmpty()) {
