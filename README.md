@@ -7,7 +7,7 @@ Simple and composable validation (w/ localization support) that's easy to expose
 
 Using npm:
 ```
-npm install express-validation-middleware
+npm install expressjs-validation-middleware --save
 ```
 
 ## Example Usage
